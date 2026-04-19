@@ -1,0 +1,1319 @@
+{
+  "meta": {
+    "title": "AI Engineering Learning Path",
+    "version": "2.1.0",
+    "lastUpdated": "2026-04-19",
+    "author": "Ahmed"
+  },
+  "categories": [
+    {
+      "id": "foundations",
+      "name": "Foundations: Advanced Python",
+      "icon": "\ud83d\udd27",
+      "description": "Core Python patterns and engineering practices tuned for AI and data infrastructure.",
+      "order": 1,
+      "topics": [
+        {
+          "id": "decorators",
+          "title": "Decorators & Higher-Order Functions",
+          "file": "content/foundations/decorators.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 40,
+          "description": "Wrapper patterns critical for logging, caching, rate limiting, and API middleware.",
+          "why_important": "Decorators are heavily utilized in Python backend frameworks (FastAPI) and machine learning libraries (PyTorch, LangChain) for logging, profiling, and routing without modifying the underlying function logic.",
+          "related_external": [
+            "Metaclasses",
+            "Dependency Injection",
+            "AOP (Aspect Oriented Programming)"
+          ]
+        },
+        {
+          "id": "generators-iterators",
+          "title": "Generators & Lazy Evaluation",
+          "file": "content/foundations/generators-iterators.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 40,
+          "description": "yield, the iterator protocol, and building memory-efficient data pipelines for ML.",
+          "why_important": "Crucial for handling massive datasets in ML engineering. They allow you to stream data through memory (like gigabytes of text for LLMs) without OOM (Out of Memory) crashes.",
+          "related_external": [
+            "Coroutines",
+            "itertools",
+            "Data Streaming Arrays"
+          ]
+        },
+        {
+          "id": "context-managers",
+          "title": "Context Managers & Resources",
+          "file": "content/foundations/context-managers.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 30,
+          "description": "Handling DB connections, file streams, and API clients safely with async/sync contexts.",
+          "why_important": "Ensures that scarce resources like database connections, GPUs, or file handles are rigorously released even when critical errors or exceptions occur.",
+          "related_external": [
+            "RAII in C++",
+            "contextlib",
+            "Async Context Managers"
+          ]
+        },
+        {
+          "id": "type-hints-pydantic",
+          "title": "Type Hints & Pydantic Validation",
+          "file": "content/foundations/type-hints-pydantic.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 40,
+          "description": "Strict typing, generics, and Pydantic models for structured outputs and safe pipelines.",
+          "why_important": "LLMs output unstructured text. Pydantic is the industry standard for forcing LLM outputs into strictly validated JSON schemas, catching hallucinations instantly.",
+          "related_external": [
+            "JSON Schema",
+            "MyPy",
+            "Instructor",
+            "Outlines"
+          ]
+        },
+        {
+          "id": "error-handling",
+          "title": "Error Handling & Defensive Coding",
+          "file": "content/foundations/error-handling.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 30,
+          "description": "Custom exception hierarchies, global handlers, and graceful degradation.",
+          "why_important": "AI pipelines fail randomly due to API limits, network timeouts, and probabilistic model behaviors. Defensive coding stops a $10 inference run from crashing halfway.",
+          "related_external": [
+            "Circuit Breakers",
+            "Exponential Backoff",
+            "DLQs (Dead Letter Queues)"
+          ]
+        },
+        {
+          "id": "core-data-structures",
+          "title": "Structures: Hash Tables & Trees",
+          "file": "content/foundations/core-data-structures.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 45,
+          "description": "Dicts, sets, binary trees, heaps, and trie structures \u2014 complexity and ML use cases.",
+          "why_important": "The backbone of all ML. Vector databases are just advanced trees/hash structures. Knowing the time complexity prevents building systems that choke on 1M+ embeddings.",
+          "related_external": [
+            "B-Trees",
+            "LSM Trees",
+            "Skip Lists",
+            "Bloom Filters"
+          ]
+        },
+        {
+          "id": "algorithms-complexity",
+          "title": "Algorithms & Big-O Analysis",
+          "file": "content/foundations/algorithms-complexity.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "core-data-structures"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Time/space complexity, sorting internals, BFS/DFS, and dynamic programming basics.",
+          "why_important": "Allows you to mathematically prove your retrieval function will scale linearly O(N) or logarithmically O(log N) as the enterprise data scales.",
+          "related_external": [
+            "Amortized Analysis",
+            "Space-Time Tradeoffs",
+            "Distributed Algorithms"
+          ]
+        },
+        {
+          "id": "asyncio",
+          "title": "Async Programming with asyncio",
+          "file": "content/foundations/asyncio.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "generators-iterators"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Coroutines, event loops, tasks, semaphores, and concurrent AI integrations.",
+          "why_important": "LLM API calls are heavily I/O bound. If you use sync requests, your app blocks while waiting 5 seconds for GPT-4 to respond. Asyncio achieves massive concurrency.",
+          "related_external": [
+            "Event Loops",
+            "Multiprocessing vs Multithreading",
+            "Celery",
+            "Redis Queues"
+          ]
+        },
+        {
+          "id": "testing-design-practices",
+          "title": "Testing, Mocking & CI/CD Pipelines",
+          "file": "content/foundations/testing-mocking-cicd.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 50,
+          "description": "pytest, fixtures, mocking external APIs, and practical SOLID principles in ML codebases.",
+          "why_important": "Testing non-deterministic AI behavior is insanely difficult. Strong testing prevents prompt regressions from breaking production systems.",
+          "related_external": [
+            "Property-based Testing",
+            "Mocks/Stubs",
+            "TDD",
+            "CI/CD Pipelines"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "software-architecture",
+      "name": "Software Architecture & System Design",
+      "icon": "\ud83c\udfd7\ufe0f",
+      "description": "The structural blueprint for directing AI agents to build scalable, robust systems.",
+      "order": 2,
+      "topics": [
+        {
+          "id": "clean-architecture",
+          "title": "Clean Architecture & SOLID",
+          "file": "content/software-architecture/clean-architecture.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept",
+            "design"
+          ],
+          "prereqs": [
+            "type-hints-pydantic",
+            "testing-design-practices"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Dependency injection, interfaces, and decoupling business logic from standard frameworks.",
+          "why_important": "When an AI writes code, tight coupling is extremely dangerous. Forcing the AI to use interfaces ensures it doesn't break 10 files when attempting to modify 1.",
+          "related_external": [
+            "Ports and Adapters (Hexagonal)",
+            "Domain-Driven Design (DDD)"
+          ]
+        },
+        {
+          "id": "data-modeling-paradigms",
+          "title": "Data Modeling: SQL, NoSQL, Vector",
+          "file": "content/software-architecture/data-modeling-paradigms.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept",
+            "design"
+          ],
+          "prereqs": [
+            "core-data-structures"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Choosing the exact database paradigm for the specific system requirement.",
+          "why_important": "AI can write perfect SQL syntactically, but it is historically bad at high-level schema design. You must architect the schemas.",
+          "related_external": [
+            "Graph Databases",
+            "Time-Series DBs",
+            "Data Normalization"
+          ]
+        },
+        {
+          "id": "event-driven-ai",
+          "title": "Event-Driven Systems & Queues",
+          "file": "content/software-architecture/event-driven-ai.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "advanced",
+          "tags": [
+            "core-concept",
+            "design"
+          ],
+          "prereqs": [
+            "asyncio"
+          ],
+          "estimatedMinutes": 50,
+          "description": "Pub/Sub architectures, message brokers, and asynchronous worker nodes.",
+          "why_important": "LLMs take 10-30 seconds to generate a response. Native HTTP requests timeout. You must implement robust asynchronous worker queues to handle tasks without blocking the server.",
+          "related_external": [
+            "Kafka / RabbitMQ",
+            "Redis PubSub",
+            "WebHooks"
+          ]
+        },
+        {
+          "id": "api-design-contracts",
+          "title": "API Design Contracts & Streaming",
+          "file": "content/software-architecture/api-design-contracts.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "core-concept",
+            "design"
+          ],
+          "prereqs": [
+            "clean-architecture"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Designing endpoints, REST, gRPC, and handling streaming protocols for LLMs.",
+          "why_important": "The UI needs to feel instantaneous. Streaming tokens back to the client via Server-Sent Events requires careful protocol design beyond basic REST endpoints.",
+          "related_external": [
+            "Server-Sent Events (SSE)",
+            "WebSockets",
+            "GraphQL",
+            "gRPC / Protobuf"
+          ]
+        },
+        {
+          "id": "state-management-memory",
+          "title": "State Management & Agent Memory",
+          "file": "content/software-architecture/state-management-memory.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "core-concept",
+            "design"
+          ],
+          "prereqs": [
+            "data-modeling-paradigms",
+            "event-driven-ai"
+          ],
+          "estimatedMinutes": 50,
+          "description": "Persisting conversational state, checkpoints, and managing ephemeral cache.",
+          "why_important": "Agents must freeze and hydrate their state. If the server crashes mid-task, how do you restore the agent exactly where it left off? State machines map this.",
+          "related_external": [
+            "Actor Model",
+            "Event Sourcing",
+            "Redis caching"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ml-fundamentals",
+      "name": "ML Fundamentals",
+      "icon": "\ud83d\udcca",
+      "description": "Classical machine learning concepts anchoring deep learning intuition.",
+      "order": 3,
+      "topics": [
+        {
+          "id": "ml-math-to-weights",
+          "title": "Linear & Logistic Regression: Math to Code",
+          "file": "content/ml-fundamentals/ml-math-to-weights.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "beginner",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 40,
+          "description": "Cost functions, gradient descent, normal equation, sigmoids, and building optimization intuition.",
+          "why_important": "Provides the fundamental intuition for how models fundamentally \"learn\" by navigating high-dimensional error spaces.",
+          "related_external": [
+            "Linear Algebra",
+            "Matrix Calculus",
+            "Optimization Theory"
+          ]
+        },
+        {
+          "id": "bias-variance",
+          "title": "Bias, Variance & Overfitting",
+          "file": "content/ml-fundamentals/bias-variance.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "ml-math-to-weights"
+          ],
+          "estimatedMinutes": 35,
+          "description": "Learning curves, regularization, the bias-variance decomposition, and diagnostics.",
+          "why_important": "The core diagnostic tool when your model fails. It tells you exactly whether you need more data, a bigger model, or more regularization.",
+          "related_external": [
+            "Occam's Razor",
+            "Ensemble Theory",
+            "Learning Curve Analysis"
+          ]
+        },
+        {
+          "id": "classification-metrics",
+          "title": "Eval Metrics: F1, ROC, & Embeddings",
+          "file": "content/ml-fundamentals/classification-metrics.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "ml-math-to-weights"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Precision, recall, confusion matrices, ROC-AUC, and how classical metrics map to vector retrieval.",
+          "why_important": "Accuracy is a lie in imbalanced datasets. These metrics are the foundation for evaluating RAG retrieval systems (Precision@K, Recall).",
+          "related_external": [
+            "NDCG",
+            "MRR (Mean Reciprocal Rank)",
+            "F-beta Score"
+          ]
+        },
+        {
+          "id": "tree-ensembles",
+          "title": "Tree Ensembles vs Neural Networks",
+          "file": "content/ml-fundamentals/tree-ensembles.md",
+          "type": "tutorial",
+          "priority": "supplementary",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "bias-variance"
+          ],
+          "estimatedMinutes": 35,
+          "description": "XGBoost, Random Forests, bagging vs boosting, and when trees absolutely beat deep learning.",
+          "why_important": "For tabular business data, Random Forest and XGBoost still routinely outperform complex Deep Learning models with significantly less computation.",
+          "related_external": [
+            "LightGBM",
+            "CatBoost",
+            "Gradient Boosting Mechanics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deep-learning",
+      "name": "Deep Learning Internals",
+      "icon": "\ud83e\udde0",
+      "description": "Neural network mechanics focused on what powers modern LLMs.",
+      "order": 4,
+      "topics": [
+        {
+          "id": "perceptrons-forward-pass",
+          "title": "Activations & The Forward Pass",
+          "file": "content/deep-learning/perceptrons-forward-pass.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "ml-math-to-weights"
+          ],
+          "estimatedMinutes": 35,
+          "description": "MLPs, activations (ReLU, GELU), universal approximation, and exact forward pass mechanics.",
+          "why_important": "The foundational building block of neural networks. Understanding matrix multiplication here demystifies the black box of LLMs.",
+          "related_external": [
+            "Activation Functions (Swish, GeLU)",
+            "Universal Approximation Theorem"
+          ]
+        },
+        {
+          "id": "backpropagation-gradients",
+          "title": "Backprop & Gradient Flow",
+          "file": "content/deep-learning/backpropagation-gradients.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "perceptrons-forward-pass"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Chain rule, computational graphs, and diagnosing exploding/vanishing gradients.",
+          "why_important": "The algorithm that powers the AI revolution. Understanding gradient flow helps diagnose why a model's loss is NaN or why learning stagnates.",
+          "related_external": [
+            "Automatic Differentiation",
+            "Jacobian Matrices",
+            "Vanishing/Exploding Gradients"
+          ]
+        },
+        {
+          "id": "loss-functions-optimizers",
+          "title": "Loss & Optimizers: AdamW and Learning Rates",
+          "file": "content/deep-learning/loss-functions-optimizers.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "backpropagation-gradients"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Cross-entropy, MSE, Adam, weight decay, and LR schedules (warmups, cosine).",
+          "why_important": "Determines HOW the model learns. AdamW is the default engine tuning billions of parameters in modern language models.",
+          "related_external": [
+            "Weight Decay",
+            "Cosine Annealing",
+            "Sophia / Lion Optimizers"
+          ]
+        },
+        {
+          "id": "cnns-rnns-evolution",
+          "title": "The Road to Transformers: CNNs & RNNs",
+          "file": "content/deep-learning/cnns-rnns-evolution.md",
+          "type": "tutorial",
+          "priority": "supplementary",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "backpropagation-gradients"
+          ],
+          "estimatedMinutes": 30,
+          "description": "Convolutions, hidden states, LSTMs, and the vanishing gradient bottleneck that forced attention.",
+          "why_important": "To truly appreciate the self-attention mechanism, you must understand the architectural bottlenecks of RNNs (sequential processing) that preceded it.",
+          "related_external": [
+            "ResNets",
+            "LSTMs/GRUs",
+            "Bidirectional RNNs"
+          ]
+        },
+        {
+          "id": "pytorch-fundamentals",
+          "title": "PyTorch: Tensors & Training Loops",
+          "file": "content/deep-learning/pytorch-fundamentals.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [
+            "perceptrons-forward-pass"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Autograd, nn.Module, DataLoaders, and mapping math to valid tensor operations.",
+          "why_important": "The undisputed king of AI research and engineering. Understanding autograd and tensors translates directly to manipulating LLM layers.",
+          "related_external": [
+            "JAX",
+            "Triton",
+            "CUDA Execution",
+            "Distributed Data Parallel"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nlp-language-models",
+      "name": "NLP to LLMs",
+      "icon": "\ud83d\udcdd",
+      "description": "The evolution of the NLP pipeline leading directly into Transformers.",
+      "order": 5,
+      "topics": [
+        {
+          "id": "tokenization",
+          "title": "Tokenization: BPE & Subwords",
+          "file": "content/nlp-language-models/tokenization.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 35,
+          "description": "BPE, WordPiece, tiktoken, Out-Of-Vocabulary handling, and why models can't spell \"strawberry\".",
+          "why_important": "LLMs don't read words, they read tokens. Tokenization explains why LLMs struggle with rhyming, math, and specific language nuances.",
+          "related_external": [
+            "Byte-Pair Encoding",
+            "SentencePiece",
+            "tiktoken",
+            "Continuous Space Models"
+          ]
+        },
+        {
+          "id": "contextual-embeddings",
+          "title": "Embeddings: Word2Vec to BERT",
+          "file": "content/nlp-language-models/contextual-embeddings.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "perceptrons-forward-pass"
+          ],
+          "estimatedMinutes": 40,
+          "description": "The distributional hypothesis, static embeddings, and the breakthrough of context-aware vectors.",
+          "why_important": "Embeddings convert raw text into spatial geometry. This is the cornerstone of all retrieval augmented generation (RAG) and semantic search.",
+          "related_external": [
+            "Word2Vec/GloVe",
+            "Cosine Similarity",
+            "Manifold Hypothesis"
+          ]
+        },
+        {
+          "id": "attention-mechanism",
+          "title": "Self-Attention & Multi-Head Attention",
+          "file": "content/nlp-language-models/attention-mechanism.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "contextual-embeddings"
+          ],
+          "estimatedMinutes": 50,
+          "description": "Query-key-value math, scaled dot-product, masking, and visual intuition for attention.",
+          "why_important": "The breakthrough that allowed models to weigh the importance of every word against every other word simultaneously, avoiding sequential memory bottlenecks.",
+          "related_external": [
+            "FlashAttention",
+            "KV Caching",
+            "Grouped Query Attention (GQA)",
+            "Rotary Embeddings (RoPE)"
+          ]
+        },
+        {
+          "id": "transformer-architecture",
+          "title": "Transformer Architecture Deep Dive",
+          "file": "content/nlp-language-models/transformer-architecture.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "attention-mechanism"
+          ],
+          "estimatedMinutes": 55,
+          "description": "Positional encoding, layer norm, residual connections, and building from scratch.",
+          "why_important": "The ubiquitous architecture scaling laws rely upon. Understanding the encoder/decoder blocks is mandatory for any serious GenAI engineer.",
+          "related_external": [
+            "Mixture of Experts (MoE)",
+            "State Space Models (Mamba)",
+            "RWKV"
+          ]
+        },
+        {
+          "id": "bert-gpt-paradigms",
+          "title": "BERT vs GPT Paradigm Shift",
+          "file": "content/nlp-language-models/bert-gpt-paradigms.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "transformer-architecture"
+          ],
+          "estimatedMinutes": 35,
+          "description": "MLM vs Autoregressive, Encoders vs Decoders, and why decoder-only architectures scaled.",
+          "why_important": "Explains the divergence in AI. BERT evolved into bidirectional search/encoders, while GPT evolved into autoregressive generative decoders.",
+          "related_external": [
+            "T5",
+            "BART",
+            "Masked Language Modeling"
+          ]
+        },
+        {
+          "id": "finetuning-peft",
+          "title": "Fine-Tuning & LoRA",
+          "file": "content/nlp-language-models/finetuning-peft.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "bert-gpt-paradigms",
+            "loss-functions-optimizers"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Full FT vs PEFT, LoRA rank mechanics, QLoRA, and practical workflows for specific domains.",
+          "why_important": "Training from scratch costs millions. Fine-tuning with LoRA allows injecting specialized domain knowledge into massive models on a single GPU.",
+          "related_external": [
+            "LoRA / QLoRA",
+            "DPO (Direct Preference Optimization)",
+            "RLHF",
+            "Quantization (AWQ/GGUF)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "genai",
+      "name": "GenAI & LLM Production",
+      "icon": "\u2728",
+      "description": "The absolute core: generative AI patterns, pipelines, and agents.",
+      "order": 6,
+      "topics": [
+        {
+          "id": "llm-architecture",
+          "title": "GenAI Architectures & Scaling",
+          "file": "content/genai/llm-architecture.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "transformer-architecture"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Chinchilla scaling laws, MoE (Mixture of Experts) basics, and data vs parameter tradeoffs.",
+          "why_important": "Provides the blueprint for how a 70 Billion parameter matrix math engine becomes a chat assistant hosted on secure infrastructure.",
+          "related_external": [
+            "vLLM",
+            "TGI",
+            "TensorRT-LLM",
+            "Continuous Batching"
+          ]
+        },
+        {
+          "id": "tokenomics-context-windows",
+          "title": "Context Windows & Economics",
+          "file": "content/genai/tokenomics-context-windows.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [
+            "tokenization"
+          ],
+          "estimatedMinutes": 30,
+          "description": "Lost-in-the-middle phenomena, RoPE positioning limits, API tier economies, and active context management.",
+          "why_important": "You pay by the token. Mismanaging the context window rapidly leads to massive cloud bills and models \"forgetting\" instructions stuck in the middle.",
+          "related_external": [
+            "Needle in a Haystack Eval",
+            "Context Compression",
+            "Ring Attention"
+          ]
+        },
+        {
+          "id": "sampling-decoding",
+          "title": "Temperature, Top-P & Decoding",
+          "file": "content/genai/sampling-decoding.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 35,
+          "description": "Greedy vs stochastic decoding, adjusting randomness per task, and logit bias overrides.",
+          "why_important": "Temperature and Top-P dictate the \"creativity\" or \"hallucination\" rate of outputs. Controlling decoding prevents deterministic agents from entering infinite loops.",
+          "related_external": [
+            "Beam Search",
+            "Contrastive Decoding",
+            "Speculative Decoding"
+          ]
+        },
+        {
+          "id": "prompt-foundations",
+          "title": "Prompt Foundations & Anatomy",
+          "file": "content/genai/prompt-foundations.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 35,
+          "description": "System prompts, zero-shot/few-shot design, and establishing robust output instructions.",
+          "why_important": "The primary interface for steering LLMs. Effective system prompts heavily mitigate downstream hallucinations and erratic behavior.",
+          "related_external": [
+            "Few-Shot Prompting",
+            "DSPy",
+            "Anthropic's Constitutional AI"
+          ]
+        },
+        {
+          "id": "structured-output-json",
+          "title": "Structured Output & JSON Mode",
+          "file": "content/genai/structured-output-json.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [
+            "prompt-foundations"
+          ],
+          "estimatedMinutes": 35,
+          "description": "Constraining generation, extracting strict JSON, tools vs JSON mode, and handling parse failures.",
+          "why_important": "Without strict JSON enforcement, it is impossible to programmatically chain LLM outputs into deterministic application workflows or databases.",
+          "related_external": [
+            "Grammar Constrained Generation",
+            "JSON Schema Tooling",
+            "Function Calling Specs"
+          ]
+        },
+        {
+          "id": "prompt-advanced",
+          "title": "Advanced Prompt Engineering",
+          "file": "content/genai/prompt-advanced.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "prompt-foundations"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Chain-of-Thought, Tree-of-Thought, self-consistency, and iterative refinement patterns.",
+          "why_important": "Chain of Thought significantly boosts reasoning by mimicking the scratchpad intuition of human thought processes.",
+          "related_external": [
+            "Tree of Thoughts",
+            "Chain of Verification",
+            "Prompt Routing"
+          ]
+        },
+        {
+          "id": "rag-chunking-indexing",
+          "title": "RAG Phase 1: Chunking & Indexing",
+          "file": "content/genai/rag-chunking-indexing.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "contextual-embeddings"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Semantic chunking, metadata attachment, handling tables/images, and vector DB insertion.",
+          "why_important": "Garbage in, garbage out. If a PDF is chunked haphazardly, the optimal answer gets split in half and the semantic search fails completely.",
+          "related_external": [
+            "Hierarchical Chunking",
+            "Semantic Chunking",
+            "Knowledge Graphs (GraphRAG)"
+          ]
+        },
+        {
+          "id": "rag-retrieval-reranking",
+          "title": "RAG Phase 2: Retrieval & Reranking",
+          "file": "content/genai/rag-retrieval-reranking.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "rag-chunking-indexing"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Dense/Sparse hybrid search, BM25, Reciprocal Rank Fusion, Cross-Encoder reranking, and query expansion.",
+          "why_important": "Vector similarity relies on generic embeddings. Rerankers act as a second-pass cross-checker to drastically spike accuracy before hitting the LLM.",
+          "related_external": [
+            "Cross-Encoders",
+            "ColBERT",
+            "BM25 Hybrid Search",
+            "Query Expansion"
+          ]
+        },
+        {
+          "id": "rag-generation-eval",
+          "title": "RAG Phase 3: Generation & Evaluation",
+          "file": "content/genai/rag-generation-eval.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "rag-retrieval-reranking"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Context injection, grounding prompts, source attribution workflows, and RAGAS framework metrics.",
+          "why_important": "If you can't measure your RAG system, you can't improve it. RAGAS provides quantitative scores (faithfulness, relevancy) to prove system reliability.",
+          "related_external": [
+            "RAGAS framework",
+            "ARES",
+            "TruLens",
+            "G-Eval"
+          ]
+        },
+        {
+          "id": "agent-architectures",
+          "title": "Agent Architectures & Tool Calling",
+          "file": "content/genai/agent-architectures.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "structured-output-json",
+            "event-driven-ai"
+          ],
+          "estimatedMinutes": 50,
+          "description": "ReAct, Tool/Function Calling loops, state management, and memory buffer types.",
+          "why_important": "Allows an LLM to step outside a sandbox. Tool calling transforms a passive chat interface into an autonomous workflow execution framework.",
+          "related_external": [
+            "ReAct Paradigm",
+            "Plan-and-Solve",
+            "OpenAI Tool APIs",
+            "Self-Reflection"
+          ]
+        },
+        {
+          "id": "multi-agent-systems",
+          "title": "Multi-Agent Orchestration",
+          "file": "content/genai/multi-agent-systems.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "agent-architectures",
+            "state-management-memory"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Supervisor nodes, graph-based routing, debate patterns, and avoiding infinite agent loops.",
+          "why_important": "Single agents get confused on massive tasks. Multi-agent routing creates networks of specialized, high-performing experts communicating directly.",
+          "related_external": [
+            "AutoGen",
+            "CrewAI",
+            "Graph Node State Machines",
+            "Actor Model"
+          ]
+        },
+        {
+          "id": "llm-evaluation",
+          "title": "Benchmarking & LLM-as-a-Judge",
+          "file": "content/genai/llm-evaluation.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "advanced",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "prompt-foundations"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Standard benchmarks, pairwise evals, establishing golden datasets, and automating judge prompts.",
+          "why_important": "Manual vibe checks don't scale. Automated LLM-as-a-judge pipelines are critical to ensure that a new prompt doesn't secretly break older features.",
+          "related_external": [
+            "MT-Bench",
+            "Chatbot Arena",
+            "Evals frameworks",
+            "Pairwise Comparison"
+          ]
+        },
+        {
+          "id": "guardrails-safety",
+          "title": "Output Guardrails & Safety",
+          "file": "content/genai/guardrails-safety.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [
+            "prompt-foundations"
+          ],
+          "estimatedMinutes": 35,
+          "description": "Hallucination catchers, programmatic validation, and semantic fallbacks for toxic/bad output.",
+          "why_important": "Customer-facing AI that says inappropriate things creates massive brand risk. Guardrails act as an absolute hard boundary against bad outputs.",
+          "related_external": [
+            "NeMo Guardrails",
+            "Llama Guard",
+            "Input/Output Sanitization"
+          ]
+        },
+        {
+          "id": "security-prompt-injection",
+          "title": "Security: Prompt Injection & Leakage",
+          "file": "content/genai/security-prompt-injection.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "prompt-foundations"
+          ],
+          "estimatedMinutes": 35,
+          "description": "Direct/indirect prompt injection mechanisms, system prompt leakage, and mitigation strategies.",
+          "why_important": "LLMs execute commands via natural language, making them inherently vulnerable to malicious user strings (e.g., 'Delete the database').",
+          "related_external": [
+            "Jailbreak testing",
+            "Red Teaming",
+            "Indirect Prompt Injection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "practical-integration",
+      "name": "Integration & System Design",
+      "icon": "\ud83e\udde9",
+      "description": "Bridging modules: How pieces wire together to form resilient, production-ready AI systems.",
+      "order": 7,
+      "topics": [
+        {
+          "id": "e2e-genai-architecture",
+          "title": "Anatomy of an E2E GenAI App",
+          "file": "content/practical-integration/e2e-genai-architecture.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "rag-generation-eval",
+            "agent-architectures",
+            "clean-architecture"
+          ],
+          "estimatedMinutes": 55,
+          "description": "Tying APIs + RAG + Agents + Frontends + Monitoring into one coherent blueprint.",
+          "why_important": "Connects isolated components into a full resilient backend spanning UI, orchestrator, vector DB, and the LLM inference engine.",
+          "related_external": [
+            "System Design for AI",
+            "Microservices",
+            "Event-Driven AI Apps"
+          ]
+        },
+        {
+          "id": "debugging-llm-pipelines",
+          "title": "Debugging LLM Applications",
+          "file": "content/practical-integration/debugging-llm-pipelines.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "e2e-genai-architecture"
+          ],
+          "estimatedMinutes": 45,
+          "description": "Tracing root causes for hallucinations: was it the prompt, retrieval, chunking, or model choice?",
+          "why_important": "Because AI is non-deterministic, figuring out exactly *which* tool in a 6-step agent chain failed requires extremely methodical debugging protocols.",
+          "related_external": [
+            "LangSmith traces",
+            "Phoenix",
+            "Step-through Prompt Execution"
+          ]
+        },
+        {
+          "id": "resilient-llm-systems",
+          "title": "Resiliency & Error Handling in GenAI",
+          "file": "content/practical-integration/resilient-llm-systems.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [
+            "error-handling"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Semantic retries, circuit breakers, fallback models, and graceful degradation when APIs drop.",
+          "why_important": "APIs go down and rate limits hit. Fallbacks ensure that if GPT-4 fails, the system automatically routes to Claude or drops gracefully.",
+          "related_external": [
+            "Circuit Breaking in AI",
+            "Model Fallbacks",
+            "Rate Limit Queuing"
+          ]
+        },
+        {
+          "id": "caching-optimization",
+          "title": "LLM Caching & Cost Optimization",
+          "file": "content/practical-integration/caching-optimization.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "decorators",
+            "tokenomics-context-windows"
+          ],
+          "estimatedMinutes": 35,
+          "description": "Semantic vs exact caching, prompt caching systems, and slicing latency/cost at scale.",
+          "why_important": "LLMs are incredibly slow and expensive. Caching identical requests drastically cuts down cloud provider bills and drops latency to milliseconds.",
+          "related_external": [
+            "Semantic Caching (GPTCache)",
+            "Redis",
+            "Prompt Caching"
+          ]
+        },
+        {
+          "id": "model-serving-apis",
+          "title": "API Design for AI Systems",
+          "file": "content/practical-integration/model-serving-apis.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "api-design-contracts"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Async streaming (SSE), WebSockets, background tasks, routing, and Docker fundamentals.",
+          "why_important": "If you host an open-source model (like Llama 3), you need an inference engine that scales to thousands of concurrent users.",
+          "related_external": [
+            "vLLM architecture",
+            "Ollama",
+            "Triton Inference Server"
+          ]
+        },
+        {
+          "id": "monitoring-observability",
+          "title": "Monitoring & Observability",
+          "file": "content/practical-integration/monitoring-observability.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [
+            "debugging-llm-pipelines"
+          ],
+          "estimatedMinutes": 35,
+          "description": "LangSmith basics, metrics logging, token tracking, and detecting concept drift in production.",
+          "why_important": "Data drift is real. Without observability, your model could slowly degenerate in quality over months while users quietly abandon the platform.",
+          "related_external": [
+            "Arize AI",
+            "DataDog LLM Observability",
+            "Drift Detection"
+          ]
+        },
+        {
+          "id": "vector-db-internals",
+          "title": "Vector Databases: HNSW & Scaling",
+          "file": "content/practical-integration/vector-db-internals.md",
+          "type": "tutorial",
+          "priority": "supplementary",
+          "difficulty": "advanced",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "rag-retrieval-reranking"
+          ],
+          "estimatedMinutes": 40,
+          "description": "How vector DBs actually work under the hood, indexing trade-offs, and comparing managed providers.",
+          "why_important": "When data hits 10+ million documents, standard Postgres chokes on vector similarities lacking specifically tuned indexes.",
+          "related_external": [
+            "HNSW algorithm",
+            "pgvector",
+            "Milvus",
+            "Quantized Vectors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tool-proficiency",
+      "name": "Tool Proficiency",
+      "icon": "\ud83d\udee0\ufe0f",
+      "description": "Mastering the frameworks and workflows that multiply engineering output.",
+      "order": 8,
+      "topics": [
+        {
+          "id": "ai-coding-mastery",
+          "title": "AI Assistants: Workflows & Power Patterns",
+          "file": "content/tool-proficiency/ai-coding-mastery.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "beginner",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [],
+          "estimatedMinutes": 30,
+          "description": "Cursor/Antigravity power patterns, iterating context window effectively, and extreme rapid prototyping.",
+          "why_important": "AI natively disrupts engineering. Leveraging Cursor/Copilot effectively accelerates your velocity 10x, moving you from coder to architect.",
+          "related_external": [
+            "Aider",
+            "Cursor mechanics",
+            "Prompting for Code Generation"
+          ]
+        },
+        {
+          "id": "langchain-core",
+          "title": "LangChain & LCEL",
+          "file": "content/tool-proficiency/langchain-core.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": [
+            "interview"
+          ],
+          "prereqs": [
+            "prompt-foundations"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Chains, templates, parsing, avoiding abstractions overhead, and production integration.",
+          "why_important": "The dominant framework in the industry. It provides standardized abstractions to rapidly prototype LLMs, prompts, and memory.",
+          "related_external": [
+            "LlamaIndex",
+            "Semantic Kernel",
+            "Haystack"
+          ]
+        },
+        {
+          "id": "langgraph",
+          "title": "LangGraph: Stateful Workflows",
+          "file": "content/tool-proficiency/langgraph.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": [
+            "interview",
+            "core-concept"
+          ],
+          "prereqs": [
+            "langchain-core",
+            "agent-architectures"
+          ],
+          "estimatedMinutes": 50,
+          "description": "Building cyclic graphs, state persistence, conditional edges, and orchestrating complex workflows.",
+          "why_important": "Stateful agent flows. Standard Langchain chains are linear DAGs; Langgraph allows cycles (loops) which are mandatory for autonomous agents.",
+          "related_external": [
+            "State Machines in Agentics",
+            "Cyclic Graphs"
+          ]
+        },
+        {
+          "id": "fastapi-ai",
+          "title": "Building Servers with FastAPI",
+          "file": "content/tool-proficiency/fastapi-ai.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": [
+            "core-concept"
+          ],
+          "prereqs": [
+            "asyncio"
+          ],
+          "estimatedMinutes": 40,
+          "description": "Spinning up clean APIs natively integrated with Pydantic for high-performance ML serving.",
+          "why_important": "The definitive Python backend framework. Its native integration with async and Pydantic makes it the ideal host for any AI endpoint.",
+          "related_external": [
+            "WebSockets for Streaming",
+            "Server-Sent Events (SSE)",
+            "Starlette"
+          ]
+        },
+        {
+          "id": "cloud-ai-services",
+          "title": "Cloud Vendor Ecosystems",
+          "file": "content/tool-proficiency/cloud-ai-services.md",
+          "type": "tutorial",
+          "priority": "supplementary",
+          "difficulty": "intermediate",
+          "tags": [],
+          "prereqs": [],
+          "estimatedMinutes": 30,
+          "description": "Navigating Azure AI, AWS Bedrock, GCP Vertex: APIs, permissions, and deployment topologies.",
+          "why_important": "Modern startups orchestrate across managed clouds (AWS Bedrock, Azure OpenAI) to avoid DevOps overhead and secure enterprise deployments.",
+          "related_external": [
+            "VPC constraints for AI",
+            "IAM for LLMs",
+            "AWS Bedrock / Sagemaker"
+          ]
+        }
+      ]
+    }
+  ]
+}
