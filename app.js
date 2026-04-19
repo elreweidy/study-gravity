@@ -1411,6 +1411,8 @@ class AITutor {
     this.currentTopicName = '';
 
     // UI Elements
+    this.drawer = document.getElementById('ai-tutor-drawer');
+    this.fabBtn = document.getElementById('tutor-fab');
     this.form = document.getElementById('tutor-form');
     this.input = document.getElementById('tutor-input');
     this.sendBtn = document.getElementById('tutor-send-btn');
@@ -1425,6 +1427,10 @@ class AITutor {
 
     if (this.form) {
       this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    }
+
+    if (this.fabBtn && this.drawer) {
+      this.fabBtn.addEventListener('click', () => this.toggleDrawer());
     }
 
     if (this.saveKeyBtn) {
@@ -1450,6 +1456,28 @@ class AITutor {
       if (this.configPanel) this.configPanel.style.display = 'block';
       if (this.input) this.input.disabled = true;
       if (this.sendBtn) this.sendBtn.disabled = true;
+    }
+  }
+
+  toggleDrawer() {
+    if (!this.drawer || !this.fabBtn) return;
+    
+    this.drawer.classList.toggle('hidden-drawer');
+    
+    const isOpen = !this.drawer.classList.contains('hidden-drawer');
+    const span = this.fabBtn.querySelector('span');
+    
+    if (isOpen) {
+      span.textContent = 'Close AI';
+      this.fabBtn.style.background = 'var(--bg-surface)';
+      this.fabBtn.style.color = 'var(--text-primary)';
+      this.fabBtn.style.border = '1px solid var(--border-subtle)';
+      if (this.input && !this.input.disabled) this.input.focus();
+    } else {
+      span.textContent = 'Ask AI';
+      this.fabBtn.style.background = 'linear-gradient(135deg, var(--accent-cyan), #818cf8)';
+      this.fabBtn.style.color = '#0f172a';
+      this.fabBtn.style.border = 'none';
     }
   }
 

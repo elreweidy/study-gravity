@@ -1125,36 +1125,85 @@ input {
    AI Tutor Layout & Styling
    ============================================ */
 
-/* Restructure Reader View for 2 columns */
+/* Restructure Reader View */
 #reader-view {
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 20px;
-  max-width: 1600px;
+  display: block;
+  max-width: var(--reader-max-width);
   margin: 0 auto;
-  align-items: flex-start;
   padding: 0 16px;
 }
 
 .reader-main-column {
   width: 100%;
-  max-width: 900px;
+  max-width: var(--reader-max-width);
   margin: 0 auto;
 }
 
-/* --- AI Contextual Tutor Drawer --- */
+/* --- Floating AI Contextual Tutor Container --- */
+.ai-tutor-container {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none; /* Let clicks pass through container */
+}
+
+/* --- AI Contextual Tutor Drawer (Floating Window) --- */
 .ai-tutor-drawer {
-  position: sticky;
-  top: 32px;
-  height: calc(100vh - 64px);
-  background: rgba(16, 20, 28, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-strong);
+  width: 400px;
+  height: 60vh;
+  min-height: 480px;
+  max-height: 800px;
+  background: rgba(16, 20, 28, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.4s;
+  pointer-events: auto; /* Re-enable clicks for the drawer */
+  transform-origin: bottom right;
+}
+
+.hidden-drawer {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9) translateY(40px);
+  pointer-events: none;
+}
+
+/* --- Floating Action Button (FAB) --- */
+.tutor-fab {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--accent-cyan), #818cf8);
+  color: #0f172a;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 1001;
+}
+
+.tutor-fab:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+}
+
+.tutor-fab svg {
+  width: 20px;
+  height: 20px;
 }
 
 .tutor-header {
