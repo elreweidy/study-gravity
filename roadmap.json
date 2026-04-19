@@ -1314,6 +1314,114 @@
           ]
         }
       ]
+    },
+    {
+      "id": "interview-prep",
+      "name": "🔥 INTERVIEW PREP — STC AI Expert (TEMP)",
+      "icon": "🔥",
+      "description": "⚠️ TEMPORARY SECTION — Remove after interview. Targeted preparation for the STC Specialized AI Expert role covering HR narratives, agentic frameworks, and GenAI ecosystem.",
+      "order": 0,
+      "temporary": true,
+      "topics": [
+        {
+          "id": "interview-hr-stories",
+          "title": "HR Interview: Anchor Stories & STAR Narratives",
+          "file": "content/interview-prep/hr-stories.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "beginner",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 30,
+          "description": "Your polished STAR-format stories for the HR screen. Impact metrics, business value, and telecom-specific talking points.",
+          "why_important": "HR is your gatekeeper. If you fumble the narrative, the technical rounds never happen.",
+          "related_external": ["STAR Method", "Behavioral Interviewing", "Elevator Pitch"]
+        },
+        {
+          "id": "interview-langchain",
+          "title": "LangChain Deep Dive: Chains, Agents, Tools, Memory",
+          "file": "content/interview-prep/langchain-core.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 45,
+          "description": "Chains vs Agents, Tool schemas, Function Calling, Memory types, and the full RAG pipeline — explained for interview recall.",
+          "why_important": "LangChain is the most widely used LLM orchestration framework. They will ask you how agents decide which tools to call.",
+          "related_external": ["LCEL", "LangGraph", "LangSmith"]
+        },
+        {
+          "id": "interview-autogen",
+          "title": "AutoGen: Multi-Agent Conversations & Code Execution",
+          "file": "content/interview-prep/autogen-core.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 40,
+          "description": "Agent types, group chat patterns, code execution safety, and how AutoGen differs from LangChain.",
+          "why_important": "AutoGen represents the multi-agent orchestration pattern. They will test if you understand when to use agents talking to each other vs a single chain.",
+          "related_external": ["CrewAI", "Semantic Kernel", "OpenAI Assistants API"]
+        },
+        {
+          "id": "interview-prompt-eng",
+          "title": "Prompt Engineering: CoT, ReAct, Few-Shot & System Design",
+          "file": "content/interview-prep/prompt-engineering.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "intermediate",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 35,
+          "description": "The prompting strategies that power every agent: Chain-of-Thought, ReAct, Few-Shot, and structured output control.",
+          "why_important": "ReAct prompting IS how agents work internally. If you cannot explain the Thought→Action→Observation loop, you cannot explain agents.",
+          "related_external": ["Tree of Thoughts", "Self-Ask", "Constitutional AI"]
+        },
+        {
+          "id": "interview-rag-vs-finetune",
+          "title": "RAG vs Fine-Tuning vs Prompting: When to Use What",
+          "file": "content/interview-prep/rag-vs-finetune.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 40,
+          "description": "The decision framework for choosing between retrieval augmentation, model fine-tuning, and pure prompt engineering.",
+          "why_important": "This is the #1 architectural question in every GenAI interview: 'Why didn't you just fine-tune?' You need a crisp, confident answer.",
+          "related_external": ["LoRA/QLoRA", "Embedding Models", "Hybrid Search"]
+        },
+        {
+          "id": "interview-azure-infra",
+          "title": "Azure OpenAI & Enterprise LLM Infrastructure",
+          "file": "content/interview-prep/azure-infra.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 30,
+          "description": "Managing API limits, model deployments, data privacy, latency optimization, and enterprise compliance on Azure.",
+          "why_important": "STC is an enterprise telecom. They care deeply about data residency, API rate limits, and how you handle production LLM infrastructure at scale.",
+          "related_external": ["Azure Content Safety", "PTU vs Pay-As-You-Go", "Private Endpoints"]
+        },
+        {
+          "id": "interview-evaluation",
+          "title": "LLM Evaluation: Hallucination, Ragas, TruLens & Metrics",
+          "file": "content/interview-prep/evaluation.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 30,
+          "description": "How to prove your agent actually works. Evaluation frameworks, hallucination detection, and production monitoring.",
+          "why_important": "The difference between a demo and production is evaluation. They will ask: 'How do you know your agent isn't hallucinating?'",
+          "related_external": ["LLM-as-Judge", "Human-in-the-Loop", "A/B Testing for LLMs"]
+        }
+      ]
     }
   ]
 }
