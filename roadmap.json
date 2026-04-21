@@ -1420,6 +1420,48 @@
           "description": "How to prove your agent actually works. Evaluation frameworks, hallucination detection, and production monitoring.",
           "why_important": "The difference between a demo and production is evaluation. They will ask: 'How do you know your agent isn't hallucinating?'",
           "related_external": ["LLM-as-Judge", "Human-in-the-Loop", "A/B Testing for LLMs"]
+        },
+        {
+          "id": "interview-nlp",
+          "title": "NLP Core: From Tokens to Transformers",
+          "file": "content/interview-prep/nlp-core.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 45,
+          "description": "Deep dive into NLP fundamentals: Tokenization, contextual embeddings (BERT/GPT), self-attention, and the bridge to STT/TTS in telecom.",
+          "why_important": "STC relies heavily on voice. Proving you understand the fundamental textual representations before and after the voice pipeline is essential.",
+          "related_external": ["Word2Vec", "Self-Attention", "SSML"]
+        },
+        {
+          "id": "interview-dl",
+          "title": "Deep Learning: Architectures & Training",
+          "file": "content/interview-prep/dl-core.md",
+          "type": "tutorial",
+          "priority": "critical",
+          "difficulty": "advanced",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 45,
+          "description": "The math behind the magic: The training loop, Loss vs. Optimizers, CNNs for imaging, and why Transformers replaced LSTMs.",
+          "why_important": "Your 'Ivy' framework project proves you know DL deeply. They will test if you understand the underlying mathematics and architecture choices.",
+          "related_external": ["Backpropagation", "Adam Optimizer", "U-Net"]
+        },
+        {
+          "id": "interview-ml",
+          "title": "Classical ML & Evaluation Mathematics",
+          "file": "content/interview-prep/ml-core.md",
+          "type": "tutorial",
+          "priority": "important",
+          "difficulty": "intermediate",
+          "tags": ["interview"],
+          "prereqs": [],
+          "estimatedMinutes": 35,
+          "description": "The foundations of data science: Bias-Variance tradeoff, Supervised vs Unsupervised, and when to use Precision vs Recall vs F1-Score.",
+          "why_important": "LLMs can't fix bad data. Showing you possess rigorous statistical and classical ML knowledge proves you are an engineer, not just an API wrapper.",
+          "related_external": ["Overfitting", "Precision-Recall Curve", "Feature Engineering"]
         }
       ]
     }
