@@ -19,6 +19,8 @@
 </head>
 <body>
 
+  <div id="global-progress-bar" class="global-progress-bar"></div>
+
   <!-- Mobile Overlay -->
   <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
@@ -176,6 +178,14 @@
           <button id="next-topic" class="nav-btn" disabled>Next →</button>
         </div>
       </div>
+      
+      <!-- Table of Contents Sidebar -->
+      <aside class="toc-sidebar">
+        <div class="toc-inner">
+          <h4 class="toc-title">On this page</h4>
+          <ul id="toc-list" class="toc-list"></ul>
+        </div>
+      </aside>
 
       <!-- AI Contextual Tutor Drawer -->
       <div id="ai-tutor-container" class="ai-tutor-container">
@@ -292,6 +302,24 @@
   <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
 
   <!-- App -->
+  <!-- Pyodide Playground Modal -->
+  <div id="pyodide-modal" class="pyodide-modal" hidden>
+    <div class="pyodide-content">
+      <div class="pyodide-header">
+        <div class="pyodide-title">🐍 Python Playground</div>
+        <button id="pyodide-close" class="pyodide-close">×</button>
+      </div>
+      <div class="pyodide-body">
+        <textarea id="pyodide-code" spellcheck="false" placeholder="Write your Python code here..."></textarea>
+        <div class="pyodide-actions">
+          <button id="pyodide-run" class="tutor-send-btn" disabled style="width: auto; padding: 0 16px;">▶ Run Code</button>
+          <span id="pyodide-status" class="pyodide-status">Initializing...</span>
+        </div>
+        <pre id="pyodide-output" class="pyodide-output"></pre>
+      </div>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 
 </body>

@@ -173,21 +173,70 @@ class ContentRenderer {
     this.iframeEl = iframeEl;
   }
 
-  async renderMarkdown(filePath) {
+  async renderMarkdown(topic) {
+    const filePath = topic.file;
     this.iframeEl.hidden = true;
     this.markdownEl.style.display = 'block';
 
     // Show loading
     this.markdownEl.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
 
+    let md = '';
     try {
       const res = await fetch(filePath);
-      if (!res.ok) throw new Error(`Could not load: ${filePath}`);
+      if (!res.ok) {
+        if (res.status === 404) throw new Error('404');
+        throw new Error(`HTTP ${res.status}`);
+      }
+      md = await res.text();
+    } catch (err) {
+      if (err.message === '404') {
+        // 'Coming Soon' Placeholder
+        let relatedLinks = '';
+        if (topic.prereqs && topic.prereqs.length > 0) {
+          relatedLinks = `
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+              <strong>Recommended Prerequisites:</strong>
+              <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                ${topic.prereqs.map(p => `<li><a href="#topic/${p}">${p}</a></li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+        
+        this.markdownEl.innerHTML = `
+          <div class="callout callout-tip" style="margin-top: 2rem;">
+            <div class="callout-title">🚧 Coming Soon</div>
+            <p>The tutorial <strong>${topic.title}</strong> is currently being authored.</p>
+            <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-surface); border-radius: var(--radius-md);">
+              <h4 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">What you will learn:</h4>
+              <p style="margin: 0; color: var(--text-secondary);">${topic.description || 'Description pending.'}</p>
+              ${topic.why_important ? `<p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);"><strong>Why it matters:</strong> ${topic.why_important}</p>` : ''}
+            </div>
+            ${relatedLinks}
+          </div>
+        `;
+      } else {
+        // Network Error
+        this.markdownEl.innerHTML = `
+          <div class="error-state" style="text-align: center; padding: 40px;">
+            <div style="font-size: 3rem; margin-bottom: 20px;">📡</div>
+            <h2>Network Error</h2>
+            <p style="color: var(--text-muted);">You appear to be offline or the server is unreachable.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">${err.message}</p>
+          </div>
+        `;
+      }
+      return "";
+    }
 
-      let md = await res.text();
-
+    try {
       // Strip YAML frontmatter if present
+      const rawMd = md;
       md = md.replace(/^---[\s\S]*?---\s*/, '');
+      
+      // Pre-process quizzes before markdown parsing
+      md = this._preProcessQuizzes(md);
 
       // Configure marked
       if (typeof marked !== 'undefined') {
@@ -203,14 +252,20 @@ class ContentRenderer {
       this._addCopyButtons();
       this._postProcessCallouts();
       this._addLanguageLabels();
-    } catch (err) {
+      this._postProcessQuizzes();
+      this._buildTableOfContents();
+      
+      return rawMd; // Return full raw markdown for AI Tutor context
+    } catch (renderErr) {
+      // Parsing Error Fallback
       this.markdownEl.innerHTML = `
-        <div class="error-state">
-          <h2>📄 Content Not Available Yet</h2>
-          <p>${err.message}</p>
-          <p>This tutorial hasn't been created yet. Use the <strong>tutorial-spec.md</strong> to generate it with your AI coding tool.</p>
+        <div class="error-state" style="padding: 20px; border: 1px solid var(--accent-rose); border-radius: var(--radius-md); background: rgba(251, 113, 133, 0.1);">
+          <h2 style="color: var(--accent-rose);">⚠️ Rendering Error</h2>
+          <p>The tutorial content could not be rendered properly. Here is the raw text:</p>
+          <pre style="white-space: pre-wrap; margin-top: 1rem; font-size: 0.8rem; background: var(--bg-card); padding: 16px; border-radius: var(--radius-sm);"><code>${md.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
         </div>
       `;
+      return md;
     }
   }
 
@@ -230,24 +285,43 @@ class ContentRenderer {
 
   _addCopyButtons() {
     this.markdownEl.querySelectorAll('pre').forEach(pre => {
-      const btn = document.createElement('button');
-      btn.className = 'copy-btn';
-      btn.textContent = 'Copy';
-      btn.addEventListener('click', () => {
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'copy-btn';
+      copyBtn.textContent = 'Copy';
+      copyBtn.addEventListener('click', () => {
         const code = pre.querySelector('code');
         if (code) {
           navigator.clipboard.writeText(code.textContent).then(() => {
-            btn.textContent = 'Copied!';
-            btn.classList.add('copied');
+            copyBtn.textContent = 'Copied!';
+            copyBtn.classList.add('copied');
             setTimeout(() => {
-              btn.textContent = 'Copy';
-              btn.classList.remove('copied');
+              copyBtn.textContent = 'Copy';
+              copyBtn.classList.remove('copied');
             }, 2000);
           });
         }
       });
       pre.style.position = 'relative';
-      pre.appendChild(btn);
+      pre.appendChild(copyBtn);
+
+      // Check if it's Python
+      const codeEl = pre.querySelector('code');
+      if (codeEl) {
+        const langClass = Array.from(codeEl.classList).find(c => c.startsWith('language-'));
+        if (langClass && langClass.includes('python')) {
+          const runBtn = document.createElement('button');
+          runBtn.className = 'copy-btn run-btn';
+          runBtn.textContent = '▶ Run Python';
+          runBtn.style.right = '70px'; // Position it next to copy
+          runBtn.style.color = 'var(--accent-green)';
+          runBtn.addEventListener('click', () => {
+            if (window.app && window.app.pythonPlayground) {
+              window.app.pythonPlayground.open(codeEl.textContent);
+            }
+          });
+          pre.appendChild(runBtn);
+        }
+      }
     });
   }
 
@@ -300,11 +374,226 @@ class ContentRenderer {
       }
     });
   }
+
+  _preProcessQuizzes(md) {
+    // Looks for a heading that starts with "### Checkpoint Quiz" and captures everything until next ## or EOF
+    const sectionRegex = /###\s+Checkpoint\s+Quiz\n([\s\S]*?(?=\n###|\n##|\n$))/gm;
+    return md.replace(sectionRegex, (match, content) => {
+      const qRegex = /^\?\s+(.+?)\n((?:-\s+\[[ xX]\]\s+.*(?:\n|$))+)/gm;
+      let html = `<div class="checkpoint-quiz-container"><h3 class="checkpoint-title">🎯 Checkpoint Quiz</h3>`;
+      let qCount = 0;
+      
+      let newContent = content.replace(qRegex, (qMatch, question, answersStr) => {
+        qCount++;
+        const answers = answersStr.trim().split('\n').map((line, idx) => {
+          const isCorrect = /-\s+\[[xX]\]/.test(line);
+          const text = line.replace(/-\s+\[[ xX]\]\s+/, '').trim();
+          return { text, isCorrect, id: `q${qCount}_a${idx}` };
+        });
+        
+        let qHtml = `<div class="quiz-card" data-quiz-id="q${qCount}">`;
+        qHtml += `<div class="quiz-question">${typeof marked !== 'undefined' ? marked.parseInline(question) : question}</div>`;
+        qHtml += `<div class="quiz-options">`;
+        answers.forEach(a => {
+          qHtml += `
+            <label class="quiz-option">
+              <input type="radio" name="quiz_${qCount}" value="${a.isCorrect}">
+              <span class="quiz-option-text">${typeof marked !== 'undefined' ? marked.parseInline(a.text) : a.text}</span>
+            </label>
+          `;
+        });
+        qHtml += `</div></div>`;
+        return qHtml;
+      });
+      
+      // Only wrap if it actually found questions
+      if (qCount === 0) return match; 
+      
+      return html + newContent + `</div>`;
+    });
+  }
+
+  _postProcessQuizzes() {
+    const container = this.markdownEl.querySelector('.checkpoint-quiz-container');
+    if (!container) {
+      window.currentTopicQuizzesPassed = true; 
+      return;
+    }
+    
+    window.currentTopicQuizzesPassed = false;
+    const cards = container.querySelectorAll('.quiz-card');
+    
+    cards.forEach(card => {
+      const inputs = card.querySelectorAll('input[type="radio"]');
+      inputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+          card.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('correct', 'incorrect'));
+          
+          const label = input.closest('.quiz-option');
+          if (input.value === 'true') {
+            label.classList.add('correct');
+            card.dataset.passed = 'true';
+          } else {
+            label.classList.add('incorrect');
+            card.dataset.passed = 'false';
+            // Show correct answer
+            const correctInput = card.querySelector('input[value="true"]');
+            if (correctInput) correctInput.closest('.quiz-option').classList.add('correct');
+          }
+          
+          const allPassed = Array.from(cards).every(c => c.dataset.passed === 'true');
+          window.currentTopicQuizzesPassed = allPassed;
+          
+          if (allPassed) {
+             showToast('🎉 Checkpoint passed! You can now mark this topic as completed.');
+          }
+        });
+      });
+    });
+  }
+
+  _buildTableOfContents() {
+    const tocList = document.getElementById('toc-list');
+    if (!tocList) return;
+    
+    tocList.innerHTML = '';
+    const headings = this.markdownEl.querySelectorAll('h2, h3');
+    
+    if (headings.length === 0) {
+      document.querySelector('.toc-sidebar').style.display = 'none';
+      return;
+    }
+    
+    document.querySelector('.toc-sidebar').style.display = 'block';
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocList.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+          const activeLink = tocList.querySelector(`a[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { rootMargin: '0px 0px -80% 0px', threshold: 0.1 });
+
+    headings.forEach(heading => {
+      // Ensure heading has an ID (marked handles this if headerIds is true, but just in case)
+      if (!heading.id) {
+        heading.id = heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      }
+      
+      observer.observe(heading);
+      
+      const li = document.createElement('li');
+      li.className = `toc-${heading.tagName.toLowerCase()}`;
+      
+      const a = document.createElement('a');
+      a.href = `#${heading.id}`;
+      a.textContent = heading.textContent.replace(/^🎯\s*|^💡\s*|^⚠️\s*/, ''); // strip emojis if any
+      
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const y = heading.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      });
+      
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+  }
+}
+
+// ============================================
+// PythonPlayground — In-Browser REPL
+// ============================================
+class PythonPlayground {
+  constructor() {
+    this.modal = document.getElementById('pyodide-modal');
+    this.codeEl = document.getElementById('pyodide-code');
+    this.outputEl = document.getElementById('pyodide-output');
+    this.statusEl = document.getElementById('pyodide-status');
+    this.runBtn = document.getElementById('pyodide-run');
+    this.closeBtn = document.getElementById('pyodide-close');
+    this.pyodide = null;
+    this.isLoading = false;
+
+    if (this.modal) this._bindEvents();
+  }
+
+  _bindEvents() {
+    this.closeBtn.addEventListener('click', () => {
+      this.modal.hidden = true;
+    });
+
+    this.runBtn.addEventListener('click', async () => {
+      if (!this.pyodide) return;
+      this.outputEl.textContent = 'Running...';
+      try {
+        await this.pyodide.runPythonAsync(`
+          import sys
+          import io
+          sys.stdout = io.StringIO()
+        `);
+        await this.pyodide.runPythonAsync(this.codeEl.value);
+        const stdout = await this.pyodide.runPythonAsync("sys.stdout.getvalue()");
+        this.outputEl.textContent = stdout || "Code executed successfully (no output).";
+      } catch (err) {
+        this.outputEl.textContent = err.toString();
+      }
+    });
+  }
+
+  async open(initialCode) {
+    if (!this.modal) return;
+    this.modal.hidden = false;
+    this.codeEl.value = initialCode;
+    this.outputEl.textContent = '';
+    
+    if (!this.pyodide && !this.isLoading) {
+      this.isLoading = true;
+      this.statusEl.textContent = 'Loading Pyodide (~5MB)...';
+      this.runBtn.disabled = true;
+      try {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+        document.head.appendChild(script);
+        
+        await new Promise((resolve, reject) => {
+          script.onload = resolve;
+          script.onerror = reject;
+        });
+        
+        this.pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/"
+        });
+        this.statusEl.textContent = 'Ready';
+        this.runBtn.disabled = false;
+      } catch (e) {
+        this.statusEl.textContent = 'Failed to load Pyodide';
+        console.error(e);
+      }
+    } else if (this.pyodide) {
+      this.statusEl.textContent = 'Ready';
+    }
+  }
 }
 
 // ============================================
 // StudyTimer — Pomodoro & Time Tracking
 // ============================================
+function showToast(msg) {
+  let toast = document.getElementById('global-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'global-toast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
 class StudyTimer {
   constructor(progressTracker) {
     this.progressTracker = progressTracker;
@@ -361,7 +650,7 @@ class StudyTimer {
       
       if (this.timeLeft === 0) {
         this.pause();
-        alert('Session complete! Take a 5 minute break.');
+        showToast('Session complete! Take a 5 minute break.');
       }
     }, 1000);
   }
@@ -693,8 +982,11 @@ class FlashcardManager {
       }
     });
 
-    // Shuffle deck
-    this.deck.sort(() => Math.random() - 0.5);
+    // Shuffle deck (Fisher-Yates)
+    for (let i = this.deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
+    }
 
     if (this.deck.length > 0) {
       this.containerEl.hidden = false;
@@ -838,6 +1130,7 @@ class App {
 
     // Initialize high impact features
     this.studyTimer = new StudyTimer(this.progress);
+    this.pythonPlayground = new PythonPlayground();
     this.graphRenderer = new GraphRenderer(this.roadmap, this.progress, document.getElementById('roadmap-graph'));
     this.flashcardManager = new FlashcardManager(this.roadmap);
     this.aiTutor = new AITutor();
@@ -909,6 +1202,9 @@ class App {
     const progressFill = document.getElementById('progress-fill');
     if (progressText) progressText.textContent = `${pct}% Complete`;
     if (progressFill) progressFill.style.width = `${pct}%`;
+    
+    const globalProgressBar = document.getElementById('global-progress-bar');
+    if (globalProgressBar) globalProgressBar.style.width = `${pct}%`;
 
     // Update category counts
     document.querySelectorAll('.nav-category').forEach(el => {
@@ -1146,7 +1442,7 @@ class App {
     if (topic.type === 'interactive') {
       this.renderer.loadInteractive(topic.file);
     } else {
-      rawMarkdown = await this.renderer.renderMarkdown(topic.file);
+      rawMarkdown = await this.renderer.renderMarkdown(topic);
     }
 
     // Pass context to AI Tutor
@@ -1310,6 +1606,13 @@ class App {
     // Status toggle
     document.getElementById('status-toggle').addEventListener('click', () => {
       if (!this.currentTopicId) return;
+      
+      const currentStatus = this.progress.getStatus(this.currentTopicId);
+      if (currentStatus === 'in-progress' && window.currentTopicQuizzesPassed === false) {
+        showToast('⚠️ Complete the Checkpoint Quiz to finish this topic!');
+        return;
+      }
+      
       const newStatus = this.progress.cycleStatus(this.currentTopicId);
       const btn = document.getElementById('status-toggle');
       btn.dataset.status = newStatus;
